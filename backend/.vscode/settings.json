@@ -1,0 +1,61 @@
+{
+  "[javascript]": {
+    "editor.codeActionsOnSave": {
+      "source.fixAll.eslint": true
+    },
+    "editor.formatOnSave": true
+  },
+  "[typescript]": {
+    "editor.codeActionsOnSave": {
+      "source.fixAll.eslint": true
+    },
+    "editor.formatOnSave": true
+  },
+  "cSpell.allowCompoundWords": true,
+  "cSpell.words": [
+    "Additionals",
+    "nestjs",
+    "paginable",
+    "pnpm",
+    "signin",
+    "SMSMKT",
+    "timestamptz",
+    "typeorm"
+  ],
+  "debug.terminal.clearBeforeReusing": true,
+  "editor.defaultFormatter": "esbenp.prettier-vscode",
+  "editor.formatOnPaste": false,
+  "editor.rulers": [80],
+  "editor.tabSize": 2,
+  "files.associations": {
+    ".env": "properties",
+    ".env.example": "properties"
+  },
+  "files.autoSave": "afterDelay",
+  "files.defaultLanguage": "typescript",
+  "files.eol": "\n",
+  "files.insertFinalNewline": true,
+  "files.trimTrailingWhitespace": true,
+  "search.exclude": {
+    "**/.cache": true,
+    "**/coverage": true,
+    "**/dist": true,
+    "**/node_modules": true,
+    "**/pnpm-lock.yaml": true,
+    ".git*": true
+  },
+  "terminal.integrated.defaultProfile.osx": "JavaScript Debug Terminal",
+  "trailing-spaces.trimOnSave": false,
+  "typescript.preferences.importModuleSpecifier": "relative",
+  "typescript.tsdk": "node_modules/typescript/lib",
+  "[sql]": {
+    "editor.defaultFormatter": "mtxr.sqltools"
+  },
+  "yaml.customTags": ["!reference sequence"],
+  "jest.autoRun": "off",
+  "jest.jestCommandLine": "pnpm test:unit",
+  "jest.monitorLongRun": "off",
+  "[properties]": {
+    "editor.defaultFormatter": "foxundermoon.shell-format"
+  }
+}
