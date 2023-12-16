@@ -1,0 +1,80 @@
+version: '3'
+services:
+  gateway:
+    build: ./gateway
+    restart: always
+    hostname: gateway
+    env_file:
+      - .env
+    ports:
+      - "8000:8000"
+    networks:
+      - backend
+      - frontend
+  route:
+    build: ./route
+    restart: always
+    hostname: route
+    env_file:
+      - .env
+    networks:
+      - backend
+    links:
+      - db
+  token:
+    build: ./token
+    restart: always
+    hostname: token
+    env_file:
+      - .env
+    networks:
+      - backend
+    links:
+      - db
+  ticket:
+    build: ./ticket
+    restart: always
+    hostname: ticket
+    env_file:
+      - .env
+    networks:
+      - backend
+  permission:
+    build: ./permission
+    restart: always
+    hostname: permission
+    env_file:
+      - .env
+    networks:
+      - backend
+  user:
+    build: ./user
+    restart: always
+    hostname: user
+    env_file:
+      - .env
+    networks:
+      - backend
+    links:
+      - mailer
+      - db
+  db:
+    image: 'postgres:14.5-bullseye'
+    restart: always
+    environment:
+      POSTGRES_DB: ${DB_DATABASE}
+      POSTGRES_USER: ${DB_USERNAME}
+      POSTGRES_PASSWORD: ${DB_PASSWORD}
+    volumes:
+      - postgres-data:/var/lib/posgresql/data
+      - ./test/e2e-setup/e2e-init-db.sql:/docker-entrypoint-initdb.d/e2e-init-db.sql
+    ports:
+      - ${DB_PORT}:${DB_PORT}
+    networks:
+      - backend
+networks:
+  backend:
+    driver: bridge
+  frontend:
+    external:
+      name: infrastructure
