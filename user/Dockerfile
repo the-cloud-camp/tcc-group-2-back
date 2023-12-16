@@ -1,7 +1,7 @@
-FROM node:18.12.0-alpine
-RUN npm install -g npm@9.8.1
+FROM node:18-alpine3.19
+RUN npm install -g pnpm
 RUN mkdir -p /var/www/user
 WORKDIR /var/www/user
 ADD . /var/www/user
-RUN npm install
-CMD npm run build && npm run start:prod
+RUN pnpm install
+CMD pnpm run build && pnpm run start:prod
