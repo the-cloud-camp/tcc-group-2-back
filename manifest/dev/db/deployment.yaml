@@ -1,0 +1,44 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  creationTimestamp: null
+  labels:
+    app: project-back-end
+  name: project-back-end
+  namespace: group-2-dev
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: project-back-end
+  strategy: {}
+  template:
+    metadata:
+      creationTimestamp: null
+      labels:
+        app: project-back-end
+    spec:
+      containers:
+      - image: korawitry/tcc-2-gateway:<tag>
+        name: gateway
+        ports:
+        - containerPort: 80
+      - image: korawitry/tcc-2-permission:<tag>
+        name: permission
+        ports:
+        - containerPort: 80
+      - image: korawitry/tcc-2-ticket:<tag>
+        name: ticket
+        ports:
+        - containerPort: 80
+      - image: korawitry/tcc-2-token:<tag>
+        name: token
+        ports:
+        - containerPort: 80
+      - image: korawitry/tcc-2-user:<tag>
+        name: user
+        ports:
+        - containerPort: 80
+
+
+status: {}

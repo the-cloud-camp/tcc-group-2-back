@@ -1,0 +1,28 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  creationTimestamp: null
+  labels:
+    app: tcc-2-gateway
+  name: tcc-2-gateway
+  namespace: group-2-dev
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: tcc-2-gateway
+  strategy: {}
+  template:
+    metadata:
+      creationTimestamp: null
+      labels:
+        app: tcc-2-gateway
+    spec:
+      containers:
+      - image: korawitry/tcc-2-gateway:<tag>
+        name: tcc-2-gateway
+        ports:
+        - containerPort: 80
+
+
+status: {}

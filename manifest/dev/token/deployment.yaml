@@ -1,0 +1,28 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  creationTimestamp: null
+  labels:
+    app: tcc-2-token
+  name: tcc-2-token
+  namespace: group-2-dev
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: tcc-2-token
+  strategy: {}
+  template:
+    metadata:
+      creationTimestamp: null
+      labels:
+        app: tcc-2-token
+    spec:
+      containers:
+      - image: korawitry/tcc-2-token:<tag>
+        name: tcc-2-token
+        ports:
+        - containerPort: 80
+
+
+status: {}
