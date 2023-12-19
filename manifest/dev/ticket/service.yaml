@@ -10,7 +10,7 @@ spec:
   ports:
   - port: 8001
     protocol: TCP
-    targetPort: 80
+    targetPort: 8001
   selector:
     app: tcc-2-ticket
 status:

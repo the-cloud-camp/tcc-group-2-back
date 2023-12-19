@@ -22,7 +22,7 @@ spec:
       - image: korawitry/tcc-2-user:<tag>
         name: tcc-2-user
         ports:
-        - containerPort: 80
+        - containerPort: 8003
 
 
 status: {}

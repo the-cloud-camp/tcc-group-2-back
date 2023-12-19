@@ -22,7 +22,7 @@ spec:
       - image: korawitry/tcc-2-route:<tag>
         name: tcc-2-route
         ports:
-        - containerPort: 80
+        - containerPort: 8004
 
 
 status: {}

@@ -10,7 +10,7 @@ spec:
   ports:
   - port: 8002
     protocol: TCP
-    targetPort: 80
+    targetPort: 8002
   selector:
     app: tcc-2-token
 status:

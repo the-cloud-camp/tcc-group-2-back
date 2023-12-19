@@ -10,7 +10,7 @@ spec:
   ports:
   - port: 8000
     protocol: TCP
-    targetPort: 80
+    targetPort: 8000
   selector:
     app: tcc-2-gateway
 status:

@@ -22,6 +22,6 @@ spec:
       - image: korawitry/tcc-2-permission:<tag>
         name: tcc-2-permission
         ports:
-        - containerPort: 80
+        - containerPort: 8005
       
 status: {}

@@ -4,7 +4,7 @@ metadata:
   creationTimestamp: null
   labels:
     app: postgres
-  name: postgres
+  name: postgres-service
   namespace: group-2-dev
 spec:
   ports:

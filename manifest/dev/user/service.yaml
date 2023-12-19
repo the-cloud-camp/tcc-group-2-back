@@ -10,7 +10,7 @@ spec:
   ports:
   - port: 8003
     protocol: TCP
-    targetPort: 80
+    targetPort: 8003
   selector:
     app: tcc-2-user
 status:

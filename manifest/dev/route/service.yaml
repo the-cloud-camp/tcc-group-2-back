@@ -10,7 +10,7 @@ spec:
   ports:
   - port: 8004
     protocol: TCP
-    targetPort: 80
+    targetPort: 8004
   selector:
     app: tcc-2-route
 status:
