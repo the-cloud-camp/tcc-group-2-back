@@ -27,41 +27,41 @@ jobs:
           file: ./gateway/Dockerfile
           push: true
           tags: ${{ secrets.DOCKERHUB_USERNAME }}/${{ secrets.BACKEND_GATEWAY }}:${{ github.sha }}
-      - name: Build and push Permission
-        uses: docker/build-push-action@v5
-        with:
-          context: .
-          file: ./permission/Dockerfile
-          push: true
-          tags: ${{ secrets.DOCKERHUB_USERNAME }}/${{ secrets.BACKEND_PERMISSION }}:${{ github.sha }}
-      - name: Build and push Route
-        uses: docker/build-push-action@v5
-        with:
-          context: .
-          file: ./route/Dockerfile
-          push: true
-          tags: ${{ secrets.DOCKERHUB_USERNAME }}/${{ secrets.BACKEND_ROUTE }}:${{ github.sha }}
-      - name: Build and push Ticket
-        uses: docker/build-push-action@v5
-        with:
-          context: .
-          file: ./ticket/Dockerfile
-          push: true
-          tags: ${{ secrets.DOCKERHUB_USERNAME }}/${{ secrets.BACKEND_TICKET }}:${{ github.sha }}
-      - name: Build and push Token
-        uses: docker/build-push-action@v5
-        with:
-          context: .
-          file: ./token/Dockerfile
-          push: true
-          tags: ${{ secrets.DOCKERHUB_USERNAME }}/${{ secrets.BACKEND_TOKEN }}:${{ github.sha }}
-      - name: Build and push User
-        uses: docker/build-push-action@v5
-        with:
-          context: .
-          file: ./user/Dockerfile
-          push: true
-          tags: ${{ secrets.DOCKERHUB_USERNAME }}/${{ secrets.BACKEND_USER }}:${{ github.sha }}
+      # - name: Build and push Permission
+      #   uses: docker/build-push-action@v5
+      #   with:
+      #     context: .
+      #     file: ./permission/Dockerfile
+      #     push: true
+      #     tags: ${{ secrets.DOCKERHUB_USERNAME }}/${{ secrets.BACKEND_PERMISSION }}:${{ github.sha }}
+      # - name: Build and push Route
+      #   uses: docker/build-push-action@v5
+      #   with:
+      #     context: .
+      #     file: ./route/Dockerfile
+      #     push: true
+      #     tags: ${{ secrets.DOCKERHUB_USERNAME }}/${{ secrets.BACKEND_ROUTE }}:${{ github.sha }}
+      # - name: Build and push Ticket
+      #   uses: docker/build-push-action@v5
+      #   with:
+      #     context: .
+      #     file: ./ticket/Dockerfile
+      #     push: true
+      #     tags: ${{ secrets.DOCKERHUB_USERNAME }}/${{ secrets.BACKEND_TICKET }}:${{ github.sha }}
+      # - name: Build and push Token
+      #   uses: docker/build-push-action@v5
+      #   with:
+      #     context: .
+      #     file: ./token/Dockerfile
+      #     push: true
+      #     tags: ${{ secrets.DOCKERHUB_USERNAME }}/${{ secrets.BACKEND_TOKEN }}:${{ github.sha }}
+      # - name: Build and push User
+      #   uses: docker/build-push-action@v5
+      #   with:
+      #     context: .
+      #     file: ./user/Dockerfile
+      #     push: true
+      #     tags: ${{ secrets.DOCKERHUB_USERNAME }}/${{ secrets.BACKEND_USER }}:${{ github.sha }}
 
   deploy_dev_server:
     runs-on: ubuntu-latest
@@ -73,7 +73,7 @@ jobs:
           chmod 777 /tmp/yq
       - name: Edit tag for Gateway
         run: | 
-          cd ..
+          cd ../..
           pwd 
           ls -la
           /tmp/yq -i '.spec.template.spec.containers[].image = "${{ secrets.DOCKERHUB_USERNAME }}/${{ secrets.BACKEND_GATEWAY }}:${{ github.sha }}"' ./manifest/dev/gateway/deployment.yaml
