@@ -21,7 +21,17 @@ spec:
       containers:
       - image: postgres:14.5-bullseye
         name: postgres
+        imagePullPolicy: "IfNotPresent"
         ports:
         - containerPort: 5432
+        volumeMounts:
+        - name: secret-volume
+          mountPath: /etc/secret-volume
+          readOnly: true
+      volumes:
+      - name: secret-volume
+        secret:
+          secretName: postgres-secret
+
 
 status: {}
