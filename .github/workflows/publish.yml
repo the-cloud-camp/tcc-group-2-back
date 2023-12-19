@@ -92,22 +92,27 @@ jobs:
           /tmp/yq -i '.spec.template.spec.containers[].image = "${{ secrets.DOCKERHUB_USERNAME }}/${{ secrets.BACKEND_GATEWAY }}:${{ github.sha }}"' ./manifest/dev/gateway/deployment.yaml
           /tmp/yq '.spec.template.spec.containers[].image' ./manifest/dev/gateway/deployment.yaml
       - name: Edit tag for Permission
+        working-directory: tcc-group-2-back
         run: | 
           /tmp/yq -i '.spec.template.spec.containers[].image = "${{ secrets.DOCKERHUB_USERNAME }}/${{ secrets.BACKEND_PERMISSION }}:${{ github.sha }}"' ./manifest/dev/permission/deployment.yaml
           /tmp/yq '.spec.template.spec.containers[].image' ./manifest/dev/permission/deployment.yaml
       - name: Edit tag for Route
+        working-directory: tcc-group-2-back
         run: | 
           /tmp/yq -i '.spec.template.spec.containers[].image = "${{ secrets.DOCKERHUB_USERNAME }}/${{ secrets.BACKEND_ROUTE }}:${{ github.sha }}"' ./manifest/dev/route/deployment.yaml
           /tmp/yq '.spec.template.spec.containers[].image' ./manifest/dev/route/deployment.yaml
       - name: Edit tag for Ticket
+        working-directory: tcc-group-2-back
         run: | 
           /tmp/yq -i '.spec.template.spec.containers[].image = "${{ secrets.DOCKERHUB_USERNAME }}/${{ secrets.BACKEND_TICKET }}:${{ github.sha }}"' ./manifest/dev/ticket/deployment.yaml
           /tmp/yq '.spec.template.spec.containers[].image' ./manifest/dev/ticket/deployment.yaml
       - name: Edit tag for Token
+        working-directory: tcc-group-2-back
         run: | 
           /tmp/yq -i '.spec.template.spec.containers[].image = "${{ secrets.DOCKERHUB_USERNAME }}/${{ secrets.BACKEND_TOKEN }}:${{ github.sha }}"' ./manifest/dev/token/deployment.yaml
           /tmp/yq '.spec.template.spec.containers[].image' ./manifest/dev/token/deployment.yaml
       - name: Edit tag for User
+        working-directory: tcc-group-2-back
         run: | 
           /tmp/yq -i '.spec.template.spec.containers[].image = "${{ secrets.DOCKERHUB_USERNAME }}/${{ secrets.BACKEND_USER }}:${{ github.sha }}"' ./manifest/dev/user/deployment.yaml
           /tmp/yq '.spec.template.spec.containers[].image' ./manifest/dev/user/deployment.yaml
@@ -128,26 +133,31 @@ jobs:
           kubectl apply -f ./manifest/dev/gateway/service.yaml -n group-2-dev
           kubectl apply -f ./manifest/dev/gateway/ingress.yaml -n group-2-dev
       - name: Apply Kubernetes to Permission
+        working-directory: tcc-group-2-back
         run: |
           kubectl get namespace -n group-2-dev 
           kubectl apply -f ./manifest/dev/permission/deployment.yaml -n group-2-dev
           kubectl apply -f ./manifest/dev/permission/service.yaml -n group-2-dev
       - name: Apply Kubernetes to Route
+        working-directory: tcc-group-2-back
         run: |
           kubectl get namespace -n group-2-dev 
           kubectl apply -f ./manifest/dev/route/deployment.yaml -n group-2-dev
           kubectl apply -f ./manifest/dev/route/service.yaml -n group-2-dev
       - name: Apply Kubernetes to Ticket
+        working-directory: tcc-group-2-back
         run: |
           kubectl get namespace -n group-2-dev 
           kubectl apply -f ./manifest/dev/ticket/deployment.yaml -n group-2-dev
           kubectl apply -f ./manifest/dev/ticket/service.yaml -n group-2-dev
       - name: Apply Kubernetes to Token
+        working-directory: tcc-group-2-back
         run: |
           kubectl get namespace -n group-2-dev 
           kubectl apply -f ./manifest/dev/token/deployment.yaml -n group-2-dev
           kubectl apply -f ./manifest/dev/token/service.yaml -n group-2-dev
       - name: Apply Kubernetes to User
+        working-directory: tcc-group-2-back
         run: |
           kubectl get namespace -n group-2-dev 
           kubectl apply -f ./manifest/dev/user/deployment.yaml -n group-2-dev
