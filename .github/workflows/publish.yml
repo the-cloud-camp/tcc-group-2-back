@@ -1,67 +1,67 @@
-# name: ci
+name: ci
 
-# on:
-#   push:
-#     branches:
-#       - "develop"
+on:
+  push:
+    branches:
+      - "develop"
 
-# jobs:
-#   build:
-#     runs-on: ubuntu-latest
-#     env: 
-#       PREDEFINED_VALUE: ${{ github.sha }}
-#     steps:
-#       - name: Checkout
-#         uses: actions/checkout@v4
-#       - name: Login to Docker Hub
-#         uses: docker/login-action@v3
-#         with:
-#           username: ${{ secrets.DOCKERHUB_USERNAME }}
-#           password: ${{ secrets.DOCKERHUB_TOKEN }}
-#       - name: Set up Docker Buildx
-#         uses: docker/setup-buildx-action@v3
-#       - name: Build and push Gateway
-#         uses: docker/build-push-action@v5
-#         with:
-#           context: .
-#           file: ./gateway/Dockerfile
-#           push: true
-#           tags: ${{ secrets.DOCKERHUB_USERNAME }}/${{ secrets.BACKEND_GATEWAY }}:${{ github.sha }}
-#       - name: Build and push Permission
-#         uses: docker/build-push-action@v5
-#         with:
-#           context: .
-#           file: ./permission/Dockerfile
-#           push: true
-#           tags: ${{ secrets.DOCKERHUB_USERNAME }}/${{ secrets.BACKEND_PERMISSION }}:${{ github.sha }}
-#       - name: Build and push Route
-#         uses: docker/build-push-action@v5
-#         with:
-#           context: .
-#           file: ./route/Dockerfile
-#           push: true
-#           tags: ${{ secrets.DOCKERHUB_USERNAME }}/${{ secrets.BACKEND_ROUTE }}:${{ github.sha }}
-#       - name: Build and push Ticket
-#         uses: docker/build-push-action@v5
-#         with:
-#           context: .
-#           file: ./ticket/Dockerfile
-#           push: true
-#           tags: ${{ secrets.DOCKERHUB_USERNAME }}/${{ secrets.BACKEND_TICKET }}:${{ github.sha }}
-#       - name: Build and push Token
-#         uses: docker/build-push-action@v5
-#         with:
-#           context: .
-#           file: ./token/Dockerfile
-#           push: true
-#           tags: ${{ secrets.DOCKERHUB_USERNAME }}/${{ secrets.BACKEND_TOKEN }}:${{ github.sha }}
-#       - name: Build and push User
-#         uses: docker/build-push-action@v5
-#         with:
-#           context: .
-#           file: ./user/Dockerfile
-#           push: true
-#           tags: ${{ secrets.DOCKERHUB_USERNAME }}/${{ secrets.BACKEND_USER }}:${{ github.sha }}
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    env: 
+      PREDEFINED_VALUE: ${{ github.sha }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Login to Docker Hub
+        uses: docker/login-action@v3
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+      - name: Build and push Gateway
+        uses: docker/build-push-action@v5
+        with:
+          context: .
+          file: ./gateway/Dockerfile
+          push: true
+          tags: ${{ secrets.DOCKERHUB_USERNAME }}/${{ secrets.BACKEND_GATEWAY }}:${{ github.sha }}
+      - name: Build and push Permission
+        uses: docker/build-push-action@v5
+        with:
+          context: .
+          file: ./permission/Dockerfile
+          push: true
+          tags: ${{ secrets.DOCKERHUB_USERNAME }}/${{ secrets.BACKEND_PERMISSION }}:${{ github.sha }}
+      - name: Build and push Route
+        uses: docker/build-push-action@v5
+        with:
+          context: .
+          file: ./route/Dockerfile
+          push: true
+          tags: ${{ secrets.DOCKERHUB_USERNAME }}/${{ secrets.BACKEND_ROUTE }}:${{ github.sha }}
+      - name: Build and push Ticket
+        uses: docker/build-push-action@v5
+        with:
+          context: .
+          file: ./ticket/Dockerfile
+          push: true
+          tags: ${{ secrets.DOCKERHUB_USERNAME }}/${{ secrets.BACKEND_TICKET }}:${{ github.sha }}
+      - name: Build and push Token
+        uses: docker/build-push-action@v5
+        with:
+          context: .
+          file: ./token/Dockerfile
+          push: true
+          tags: ${{ secrets.DOCKERHUB_USERNAME }}/${{ secrets.BACKEND_TOKEN }}:${{ github.sha }}
+      - name: Build and push User
+        uses: docker/build-push-action@v5
+        with:
+          context: .
+          file: ./user/Dockerfile
+          push: true
+          tags: ${{ secrets.DOCKERHUB_USERNAME }}/${{ secrets.BACKEND_USER }}:${{ github.sha }}
 
       
 #       # - name: Build YQ
