@@ -78,8 +78,6 @@ jobs:
       - name: Build YQ
         working-directory: tcc-group-2-back
         run: | 
-          pwd
-          ls -la
           wget https://github.com/mikefarah/yq/releases/latest/download/yq_linux_amd64 -O /tmp/yq
           chmod 777 /tmp/yq
       - name: Edit tag for Gateway

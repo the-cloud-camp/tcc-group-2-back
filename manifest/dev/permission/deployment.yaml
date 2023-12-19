@@ -18,6 +18,7 @@ spec:
       labels:
         app: tcc-2-permission
     spec:
+      containers:
       - image: korawitry/tcc-2-permission:<tag>
         name: tcc-2-permission
         ports:
