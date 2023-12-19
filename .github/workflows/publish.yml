@@ -86,10 +86,10 @@ jobs:
           ls -la
           wget https://github.com/mikefarah/yq/releases/latest/download/yq_linux_amd64 -O /tmp/yq
           chmod 777 /tmp/yq
-      # - name: Edit tag for Gateway
-      #   run: | 
-      #     /tmp/yq -i '.spec.template.spec.containers[].image = "${{ secrets.DOCKERHUB_USERNAME }}/${{ secrets.BACKEND_GATEWAY }}:${{ github.sha }}"' ./manifest/dev/gateway/deployment.yaml
-      #     /tmp/yq '.spec.template.spec.containers[].image' ./manifest/dev/gateway/deployment.yaml
+      - name: Edit tag for Gateway
+        run: | 
+          /tmp/yq -i '.spec.template.spec.containers[].image = "${{ secrets.DOCKERHUB_USERNAME }}/${{ secrets.BACKEND_GATEWAY }}:${{ github.sha }}"' ./manifest/dev/gateway/deployment.yaml
+          /tmp/yq '.spec.template.spec.containers[].image' ./manifest/dev/gateway/deployment.yaml
       # - name: Edit tag for Permission
       #   run: | 
       #     /tmp/yq -i '.spec.template.spec.containers[].image = "${{ secrets.DOCKERHUB_USERNAME }}/${{ secrets.BACKEND_PERMISSION }}:${{ github.sha }}"' ./manifest/dev/permission/deployment.yaml
