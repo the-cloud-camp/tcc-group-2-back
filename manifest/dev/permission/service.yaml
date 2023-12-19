@@ -8,7 +8,7 @@ metadata:
   namespace: group-2-dev
 spec:
   ports:
-  - port: 8081
+  - port: 8005
     protocol: TCP
     targetPort: 80
   selector:

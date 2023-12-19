@@ -15,6 +15,6 @@ spec:
           service:
             name: tcc-2-gateway-service
             port:
-              number: 8081
+              number: 8000
         path: /api(/|$)(.*)
         pathType: Prefix

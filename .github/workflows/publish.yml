@@ -63,30 +63,75 @@ jobs:
           push: true
           tags: ${{ secrets.DOCKERHUB_USERNAME }}/${{ secrets.BACKEND_USER }}:${{ github.sha }}
 
-      
-#       # - name: Build YQ
-#       #   run: | 
-#       #     wget https://github.com/mikefarah/yq/releases/latest/download/yq_linux_amd64 -O /tmp/yq
-#       #     chmod 777 /tmp/yq
-#       # - name: Edit tag for deployment
-#       #   run: | 
-#       #     pwd 
-#       #     ls -la
-#       #     /tmp/yq -i '.spec.template.spec.containers[].image = "korawitry/java-week-09-1008:${{ github.sha }}"' ./manifest/dev/deployment.yaml
-#       #     /tmp/yq '.spec.template.spec.containers[].image' ./manifest/dev/deployment.yaml
-        
-#       # - name: Set up Kubernetes
-#       #   run: | 
-#       #     curl -LO "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl"
-#       #     kubectl config set-cluster tcc-01 --server=https://tcc-01.th1.proen.cloud/api/ 
-#       #     kubectl config set-context tcc-01 --cluster=tcc-01 
-#       #     kubectl config set-credentials tcc-01-user --token="eyJhbGciOiJSUzI1NiIsImtpZCI6ImhpMWZNbG5rUWdzQ1hVX1pIcEtMQXRCcklVVVRpUnkzQmRGSjRjSFVVcWMifQ.eyJpc3MiOiJrdWJlcm5ldGVzL3NlcnZpY2VhY2NvdW50Iiwia3ViZXJuZXRlcy5pby9zZXJ2aWNlYWNjb3VudC9uYW1lc3BhY2UiOiJrdWJlLXN5c3RlbSIsImt1YmVybmV0ZXMuaW8vc2VydmljZWFjY291bnQvc2VjcmV0Lm5hbWUiOiJmdWxsYWRtaW4tdG9rZW4iLCJrdWJlcm5ldGVzLmlvL3NlcnZpY2VhY2NvdW50L3NlcnZpY2UtYWNjb3VudC5uYW1lIjoiZnVsbGFkbWluIiwia3ViZXJuZXRlcy5pby9zZXJ2aWNlYWNjb3VudC9zZXJ2aWNlLWFjY291bnQudWlkIjoiNmIyMDI3MjYtNjUzZi00ZWMzLThhYjItZGE3YTFjODJjYjUyIiwic3ViIjoic3lzdGVtOnNlcnZpY2VhY2NvdW50Omt1YmUtc3lzdGVtOmZ1bGxhZG1pbiJ9.FP2sBFmJAyIxH5JqsM3yIS2nbDWQIJi-9BD8Qd_Dt1VHDeIR9Tq831LaLNpD3hYSAceHtxbTDHdrwXXkJeKZpIVZp2c76_GQOQzWa2lhsTGDrakMBtOrM351IrDuNl2tL4peZSTu0XfKloMQEpSkk8zKnONqOEpFfzzp-BxBz31HfARxoaMXEnayNyQiLaec5cfnvgRDVr0BrMNca5DEhpdFp1oNr_CxrcH6zdO9VdrjS4BgezGUNgfBClWOntzr5Vkt8bg-XQmQdqu8v61OqXMHNOxLvM0uv19l8-S6jNh-pWv-dGXkWfXhOKvt4x1NKYFvQQtu3gNA_x0cN5kO5Q"
-#       #     kubectl config set-context  tcc-01 --user=tcc-01-user
-#       #     kubectl config use-context  tcc-01  
-#       # - name: Apply To Kubernetes
-#       #   run: |
-#       #     kubectl get namespace -n group-2-dev 
-#       #     kubectl apply -f ./manifest/dev/deployment.yaml -n group-2-dev
-#       #     kubectl apply -f ./manifest/dev/service.yaml -n group-2-dev
-#       #     kubectl apply -f ./manifest/dev/ingress.yaml -n group-2-dev
-#       #     echo "test : $PREDEFINED_VALUE"
+  deploy_dev_server:
+    runs-on: ubuntu-latest
+    needs: build
+    steps:
+      - name: Build YQ
+        run: | 
+          wget https://github.com/mikefarah/yq/releases/latest/download/yq_linux_amd64 -O /tmp/yq
+          chmod 777 /tmp/yq
+      - name: Edit tag for Gateway
+        run: | 
+          /tmp/yq -i '.spec.template.spec.containers[].image = "${{ secrets.DOCKERHUB_USERNAME }}/${{ secrets.BACKEND_GATEWAY }}:${{ github.sha }}"' ./manifest/dev/gateway/deployment.yaml
+          /tmp/yq '.spec.template.spec.containers[].image' ./manifest/dev/gateway/deployment.yaml
+      - name: Edit tag for Permission
+        run: | 
+          /tmp/yq -i '.spec.template.spec.containers[].image = "${{ secrets.DOCKERHUB_USERNAME }}/${{ secrets.BACKEND_PERMISSION }}:${{ github.sha }}"' ./manifest/dev/permission/deployment.yaml
+          /tmp/yq '.spec.template.spec.containers[].image' ./manifest/dev/permission/deployment.yaml
+      - name: Edit tag for Route
+        run: | 
+          /tmp/yq -i '.spec.template.spec.containers[].image = "${{ secrets.DOCKERHUB_USERNAME }}/${{ secrets.BACKEND_ROUTE }}:${{ github.sha }}"' ./manifest/dev/route/deployment.yaml
+          /tmp/yq '.spec.template.spec.containers[].image' ./manifest/dev/route/deployment.yaml
+      - name: Edit tag for Ticket
+        run: | 
+          /tmp/yq -i '.spec.template.spec.containers[].image = "${{ secrets.DOCKERHUB_USERNAME }}/${{ secrets.BACKEND_TICKET }}:${{ github.sha }}"' ./manifest/dev/ticket/deployment.yaml
+          /tmp/yq '.spec.template.spec.containers[].image' ./manifest/dev/ticket/deployment.yaml
+      - name: Edit tag for Token
+        run: | 
+          /tmp/yq -i '.spec.template.spec.containers[].image = "${{ secrets.DOCKERHUB_USERNAME }}/${{ secrets.BACKEND_TOKEN }}:${{ github.sha }}"' ./manifest/dev/token/deployment.yaml
+          /tmp/yq '.spec.template.spec.containers[].image' ./manifest/dev/token/deployment.yaml
+      - name: Edit tag for User
+        run: | 
+          /tmp/yq -i '.spec.template.spec.containers[].image = "${{ secrets.DOCKERHUB_USERNAME }}/${{ secrets.BACKEND_USER }}:${{ github.sha }}"' ./manifest/dev/user/deployment.yaml
+          /tmp/yq '.spec.template.spec.containers[].image' ./manifest/dev/user/deployment.yaml
+
+      - name: Set up Kubernetes
+        run: | 
+          curl -LO "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl"
+          kubectl config set-cluster ${{ secrets.CLUSTER }} --server=${{ secrets.SERVER }} 
+          kubectl config set-context ${{ secrets.CLUSTER }} --cluster=${{ secrets.CLUSTER }}
+          kubectl config set-credentials ${{ secrets.TCC_CREDENTIALS }} --token="${{ secrets.TCC_TOKEN }}"
+          kubectl config set-context  ${{ secrets.CLUSTER }} --user=${{ secrets.TCC_CREDENTIALS }}
+          kubectl config use-context  ${{ secrets.CLUSTER }}    
+      - name: Apply Kubernetes to gateway
+        run: |
+          kubectl get namespace -n group-2-dev 
+          kubectl apply -f ./manifest/dev/gateway/deployment.yaml -n group-2-dev
+          kubectl apply -f ./manifest/dev/gateway/service.yaml -n group-2-dev
+          kubectl apply -f ./manifest/dev/gateway/ingress.yaml -n group-2-dev
+      - name: Apply Kubernetes to Permission
+        run: |
+          kubectl get namespace -n group-2-dev 
+          kubectl apply -f ./manifest/dev/permission/deployment.yaml -n group-2-dev
+          kubectl apply -f ./manifest/dev/permission/service.yaml -n group-2-dev
+      - name: Apply Kubernetes to Route
+        run: |
+          kubectl get namespace -n group-2-dev 
+          kubectl apply -f ./manifest/dev/route/deployment.yaml -n group-2-dev
+          kubectl apply -f ./manifest/dev/route/service.yaml -n group-2-dev
+      - name: Apply Kubernetes to Ticket
+        run: |
+          kubectl get namespace -n group-2-dev 
+          kubectl apply -f ./manifest/dev/ticket/deployment.yaml -n group-2-dev
+          kubectl apply -f ./manifest/dev/ticket/service.yaml -n group-2-dev
+      - name: Apply Kubernetes to Token
+        run: |
+          kubectl get namespace -n group-2-dev 
+          kubectl apply -f ./manifest/dev/token/deployment.yaml -n group-2-dev
+          kubectl apply -f ./manifest/dev/token/service.yaml -n group-2-dev
+      - name: Apply Kubernetes to User
+        run: |
+          kubectl get namespace -n group-2-dev 
+          kubectl apply -f ./manifest/dev/user/deployment.yaml -n group-2-dev
+          kubectl apply -f ./manifest/dev/user/service.yaml -n group-2-dev

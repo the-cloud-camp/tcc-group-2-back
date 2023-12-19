@@ -3,15 +3,15 @@ kind: Service
 metadata:
   creationTimestamp: null
   labels:
-    app: java-week-09-1008
-  name: java-service
+    app: postgres
+  name: postgres
   namespace: group-2-dev
 spec:
   ports:
-  - port: 8081
+  - port: 5432
     protocol: TCP
-    targetPort: 80
+    targetPort: 5432
   selector:
-    app: java-week-09-1008
+    app: postgres
 status:
   loadBalancer: {}
