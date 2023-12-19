@@ -73,6 +73,7 @@ jobs:
           chmod 777 /tmp/yq
       - name: Edit tag for Gateway
         run: | 
+          cd ..
           pwd 
           ls -la
           /tmp/yq -i '.spec.template.spec.containers[].image = "${{ secrets.DOCKERHUB_USERNAME }}/${{ secrets.BACKEND_GATEWAY }}:${{ github.sha }}"' ./manifest/dev/gateway/deployment.yaml
