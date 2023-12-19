@@ -87,6 +87,7 @@ jobs:
           wget https://github.com/mikefarah/yq/releases/latest/download/yq_linux_amd64 -O /tmp/yq
           chmod 777 /tmp/yq
       - name: Edit tag for Gateway
+        working-directory: tcc-group-2-back
         run: | 
           /tmp/yq -i '.spec.template.spec.containers[].image = "${{ secrets.DOCKERHUB_USERNAME }}/${{ secrets.BACKEND_GATEWAY }}:${{ github.sha }}"' ./manifest/dev/gateway/deployment.yaml
           /tmp/yq '.spec.template.spec.containers[].image' ./manifest/dev/gateway/deployment.yaml
