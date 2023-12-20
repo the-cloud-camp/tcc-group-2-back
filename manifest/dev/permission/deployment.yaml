@@ -1,0 +1,26 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  creationTimestamp: null
+  labels:
+    app: tcc-2-permission
+  name: tcc-2-permission
+  namespace: group-2-dev
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: tcc-2-permission
+  strategy: {}
+  template:
+    metadata:
+      creationTimestamp: null
+      labels:
+        app: tcc-2-permission
+    spec:
+      - image: korawitry/tcc-2-permission:<tag>
+        name: tcc-2-permission
+        ports:
+        - containerPort: 80
+      
+status: {}
