@@ -5,4 +5,5 @@ WORKDIR /var/www/route
 ADD . /var/www/route
 RUN pnpm install
 RUN pnpm build
-CMD pnpm start:prod
+# CMD node test.js
+CMD pnpm typeorm:migration:run && pnpm seed:run && pnpm start:prod

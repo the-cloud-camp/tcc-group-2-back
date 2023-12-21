@@ -12,7 +12,9 @@ import { ClientProxy } from '@nestjs/microservices';
 @Injectable()
 export class AuthGuard implements CanActivate {
   constructor(
-    private readonly reflector: Reflector, // @Inject('TOKEN_SERVICE') private readonly tokenServiceClient: ClientProxy, // @Inject('USER_SERVICE') private readonly userServiceClient: ClientProxy,
+    private readonly reflector: Reflector,
+    @Inject('TOKEN_SERVICE') private readonly tokenServiceClient: ClientProxy,
+    @Inject('USER_SERVICE') private readonly userServiceClient: ClientProxy,
   ) {}
 
   public async canActivate(context: ExecutionContext): Promise<boolean> {

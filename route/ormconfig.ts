@@ -21,14 +21,15 @@ export const loggingLevel = (): LoggerOptions => {
 
 const options: PostgresConnectionOptions = {
   type: 'postgres',
-  host: process.env.DB_HOST,
+  host: 'db-pg',
+  // host: process.env.DB_HOST,
   port: Number.parseInt(process.env.DB_PORT || ''),
   username: 'pguser',
   password: 'pgpassword',
   database: 'pgdb',
-    // process.env.ENV === 'e2e'
-    //   ? `${process.env.DB_DATABASE} || '-e2e`
-    //   : process.env.DB_DATABASE,
+  // process.env.ENV === 'e2e'
+  //   ? `${process.env.DB_DATABASE} || '-e2e`
+  //   : process.env.DB_DATABASE,
   entities: [join(__dirname, 'src/**/*.entity.{js,ts}')],
   migrations: [join(__dirname, 'migrations/**/*.{js,ts}')],
   // seeds: [join(__dirname, 'seeds/**/*.{js,ts}')],
