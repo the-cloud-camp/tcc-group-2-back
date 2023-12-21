@@ -27,41 +27,41 @@ jobs:
           file: ./gateway/Dockerfile
           push: true
           tags: ${{ secrets.DOCKERHUB_USERNAME }}/${{ secrets.BACKEND_GATEWAY }}:${{ github.sha }}
-      - name: Build and push Permission
-        uses: docker/build-push-action@v5
-        with:
-          context: .
-          file: ./permission/Dockerfile
-          push: true
-          tags: ${{ secrets.DOCKERHUB_USERNAME }}/${{ secrets.BACKEND_PERMISSION }}:${{ github.sha }}
-      - name: Build and push Route
-        uses: docker/build-push-action@v5
-        with:
-          context: .
-          file: ./route/Dockerfile
-          push: true
-          tags: ${{ secrets.DOCKERHUB_USERNAME }}/${{ secrets.BACKEND_ROUTE }}:${{ github.sha }}
-      - name: Build and push Ticket
-        uses: docker/build-push-action@v5
-        with:
-          context: .
-          file: ./ticket/Dockerfile
-          push: true
-          tags: ${{ secrets.DOCKERHUB_USERNAME }}/${{ secrets.BACKEND_TICKET }}:${{ github.sha }}
-      - name: Build and push Token
-        uses: docker/build-push-action@v5
-        with:
-          context: .
-          file: ./token/Dockerfile
-          push: true
-          tags: ${{ secrets.DOCKERHUB_USERNAME }}/${{ secrets.BACKEND_TOKEN }}:${{ github.sha }}
-      - name: Build and push User
-        uses: docker/build-push-action@v5
-        with:
-          context: .
-          file: ./user/Dockerfile
-          push: true
-          tags: ${{ secrets.DOCKERHUB_USERNAME }}/${{ secrets.BACKEND_USER }}:${{ github.sha }}
+      # - name: Build and push Permission
+      #   uses: docker/build-push-action@v5
+      #   with:
+      #     context: .
+      #     file: ./permission/Dockerfile
+      #     push: true
+      #     tags: ${{ secrets.DOCKERHUB_USERNAME }}/${{ secrets.BACKEND_PERMISSION }}:${{ github.sha }}
+      # - name: Build and push Route
+      #   uses: docker/build-push-action@v5
+      #   with:
+      #     context: .
+      #     file: ./route/Dockerfile
+      #     push: true
+      #     tags: ${{ secrets.DOCKERHUB_USERNAME }}/${{ secrets.BACKEND_ROUTE }}:${{ github.sha }}
+      # - name: Build and push Ticket
+      #   uses: docker/build-push-action@v5
+      #   with:
+      #     context: .
+      #     file: ./ticket/Dockerfile
+      #     push: true
+      #     tags: ${{ secrets.DOCKERHUB_USERNAME }}/${{ secrets.BACKEND_TICKET }}:${{ github.sha }}
+      # - name: Build and push Token
+      #   uses: docker/build-push-action@v5
+      #   with:
+      #     context: .
+      #     file: ./token/Dockerfile
+      #     push: true
+      #     tags: ${{ secrets.DOCKERHUB_USERNAME }}/${{ secrets.BACKEND_TOKEN }}:${{ github.sha }}
+      # - name: Build and push User
+      #   uses: docker/build-push-action@v5
+      #   with:
+      #     context: .
+      #     file: ./user/Dockerfile
+      #     push: true
+      #     tags: ${{ secrets.DOCKERHUB_USERNAME }}/${{ secrets.BACKEND_USER }}:${{ github.sha }}
 
   deploy_dev_server:
     runs-on: ubuntu-latest
@@ -70,89 +70,122 @@ jobs:
       - name: Clone nonprd repository
         uses: actions/checkout@v3
         with:
-          repository: 'the-cloud-camp/tcc-group-2-back'
+          repository: 'the-cloud-camp/tcc-k8s-config-nonprd'
           token: ${{ secrets.GH_PAT }}  # Use your PAT for private repositories
-          path: 'tcc-group-2-back'
-          ref: develop
+          path: 'tcc-k8s-config-nonprd'
+          ref: group-2
 
       - name: Build YQ
         working-directory: tcc-group-2-back
         run: | 
           wget https://github.com/mikefarah/yq/releases/latest/download/yq_linux_amd64 -O /tmp/yq
           chmod 777 /tmp/yq
-      - name: Edit tag for Gateway
-        working-directory: tcc-group-2-back
-        run: | 
-          /tmp/yq -i '.spec.template.spec.containers[].image = "${{ secrets.DOCKERHUB_USERNAME }}/${{ secrets.BACKEND_GATEWAY }}:${{ github.sha }}"' ./manifest/dev/gateway/deployment.yaml
-          /tmp/yq '.spec.template.spec.containers[].image' ./manifest/dev/gateway/deployment.yaml
-      - name: Edit tag for Permission
-        working-directory: tcc-group-2-back
-        run: | 
-          /tmp/yq -i '.spec.template.spec.containers[].image = "${{ secrets.DOCKERHUB_USERNAME }}/${{ secrets.BACKEND_PERMISSION }}:${{ github.sha }}"' ./manifest/dev/permission/deployment.yaml
-          /tmp/yq '.spec.template.spec.containers[].image' ./manifest/dev/permission/deployment.yaml
-      - name: Edit tag for Route
-        working-directory: tcc-group-2-back
-        run: | 
-          /tmp/yq -i '.spec.template.spec.containers[].image = "${{ secrets.DOCKERHUB_USERNAME }}/${{ secrets.BACKEND_ROUTE }}:${{ github.sha }}"' ./manifest/dev/route/deployment.yaml
-          /tmp/yq '.spec.template.spec.containers[].image' ./manifest/dev/route/deployment.yaml
-      - name: Edit tag for Ticket
-        working-directory: tcc-group-2-back
-        run: | 
-          /tmp/yq -i '.spec.template.spec.containers[].image = "${{ secrets.DOCKERHUB_USERNAME }}/${{ secrets.BACKEND_TICKET }}:${{ github.sha }}"' ./manifest/dev/ticket/deployment.yaml
-          /tmp/yq '.spec.template.spec.containers[].image' ./manifest/dev/ticket/deployment.yaml
-      - name: Edit tag for Token
-        working-directory: tcc-group-2-back
-        run: | 
-          /tmp/yq -i '.spec.template.spec.containers[].image = "${{ secrets.DOCKERHUB_USERNAME }}/${{ secrets.BACKEND_TOKEN }}:${{ github.sha }}"' ./manifest/dev/token/deployment.yaml
-          /tmp/yq '.spec.template.spec.containers[].image' ./manifest/dev/token/deployment.yaml
-      - name: Edit tag for User
-        working-directory: tcc-group-2-back
-        run: | 
-          /tmp/yq -i '.spec.template.spec.containers[].image = "${{ secrets.DOCKERHUB_USERNAME }}/${{ secrets.BACKEND_USER }}:${{ github.sha }}"' ./manifest/dev/user/deployment.yaml
-          /tmp/yq '.spec.template.spec.containers[].image' ./manifest/dev/user/deployment.yaml
 
-      - name: Set up Kubernetes
-        run: | 
-          curl -LO "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl"
-          kubectl config set-cluster ${{ secrets.CLUSTER }} --server=${{ secrets.SERVER }} 
-          kubectl config set-context ${{ secrets.CLUSTER }} --cluster=${{ secrets.CLUSTER }}
-          kubectl config set-credentials ${{ secrets.TCC_CREDENTIALS }} --token="${{ secrets.TCC_TOKEN }}"
-          kubectl config set-context  ${{ secrets.CLUSTER }} --user=${{ secrets.TCC_CREDENTIALS }}
-          kubectl config use-context  ${{ secrets.CLUSTER }}    
-      - name: Apply Kubernetes to gateway
-        working-directory: tcc-group-2-back
-        run: |
-          kubectl get namespace -n group-2-dev 
-          kubectl apply -f ./manifest/dev/gateway/deployment.yaml -n group-2-dev
-          kubectl apply -f ./manifest/dev/gateway/service.yaml -n group-2-dev
-          kubectl apply -f ./manifest/dev/gateway/ingress.yaml -n group-2-dev
-      - name: Apply Kubernetes to Permission
-        working-directory: tcc-group-2-back
-        run: |
-          kubectl get namespace -n group-2-dev 
-          kubectl apply -f ./manifest/dev/permission/deployment.yaml -n group-2-dev
-          kubectl apply -f ./manifest/dev/permission/service.yaml -n group-2-dev
-      - name: Apply Kubernetes to Route
-        working-directory: tcc-group-2-back
-        run: |
-          kubectl get namespace -n group-2-dev 
-          kubectl apply -f ./manifest/dev/route/deployment.yaml -n group-2-dev
-          kubectl apply -f ./manifest/dev/route/service.yaml -n group-2-dev
-      - name: Apply Kubernetes to Ticket
-        working-directory: tcc-group-2-back
-        run: |
-          kubectl get namespace -n group-2-dev 
-          kubectl apply -f ./manifest/dev/ticket/deployment.yaml -n group-2-dev
-          kubectl apply -f ./manifest/dev/ticket/service.yaml -n group-2-dev
-      - name: Apply Kubernetes to Token
-        working-directory: tcc-group-2-back
-        run: |
-          kubectl get namespace -n group-2-dev 
-          kubectl apply -f ./manifest/dev/token/deployment.yaml -n group-2-dev
-          kubectl apply -f ./manifest/dev/token/service.yaml -n group-2-dev
-      - name: Apply Kubernetes to User
-        working-directory: tcc-group-2-back
-        run: |
-          kubectl get namespace -n group-2-dev 
-          kubectl apply -f ./manifest/dev/user/deployment.yaml -n group-2-dev
-          kubectl apply -f ./manifest/dev/user/service.yaml -n group-2-dev
+      - name: Update image from registry
+        working-directory: tcc-k8s-config-nonprd
+        run: |-
+          wget https://github.com/mikefarah/yq/releases/latest/download/yq_linux_amd64 -O /usr/bin/yq &&\
+          chmod +x /usr/bin/yq
+          /tmp/yq yq -i '.spec.template.spec.containers[0].image = "${{ secrets.DOCKERHUB_USERNAME }}/${{ secrets.BACKEND_GATEWAY }}:${{ github.sha }}" ' config/gateway/deployment.yaml
+      
+      - name: Update repository
+        working-directory: tcc-k8s-config-nonprd
+        run: |-
+          git config --global user.email "support@dependabot.com"
+          git config --global user.name "dependabot[bot]"
+          git commit -am "release ${{ secrets.DOCKERHUB_USERNAME }}/${{ secrets.BACKEND_GATEWAY }}:${{ github.sha }}"
+          git push origin group-2
+
+  # deploy_dev_server:
+  #   runs-on: ubuntu-latest
+  #   needs: build
+  #   steps:
+  #     - name: Clone nonprd repository
+  #       uses: actions/checkout@v3
+  #       with:
+  #         repository: 'the-cloud-camp/tcc-group-2-back'
+  #         token: ${{ secrets.GH_PAT }}  # Use your PAT for private repositories
+  #         path: 'tcc-group-2-back'
+  #         ref: develop
+
+  #     - name: Build YQ
+  #       working-directory: tcc-group-2-back
+  #       run: | 
+  #         wget https://github.com/mikefarah/yq/releases/latest/download/yq_linux_amd64 -O /tmp/yq
+  #         chmod 777 /tmp/yq
+  #     - name: Edit tag for Gateway
+  #       working-directory: tcc-group-2-back
+  #       run: | 
+  #         /tmp/yq -i '.spec.template.spec.containers[].image = "${{ secrets.DOCKERHUB_USERNAME }}/${{ secrets.BACKEND_GATEWAY }}:${{ github.sha }}"' ./manifest/dev/gateway/deployment.yaml
+  #         /tmp/yq '.spec.template.spec.containers[].image' ./manifest/dev/gateway/deployment.yaml
+  #     - name: Edit tag for Permission
+  #       working-directory: tcc-group-2-back
+  #       run: | 
+  #         /tmp/yq -i '.spec.template.spec.containers[].image = "${{ secrets.DOCKERHUB_USERNAME }}/${{ secrets.BACKEND_PERMISSION }}:${{ github.sha }}"' ./manifest/dev/permission/deployment.yaml
+  #         /tmp/yq '.spec.template.spec.containers[].image' ./manifest/dev/permission/deployment.yaml
+  #     - name: Edit tag for Route
+  #       working-directory: tcc-group-2-back
+  #       run: | 
+  #         /tmp/yq -i '.spec.template.spec.containers[].image = "${{ secrets.DOCKERHUB_USERNAME }}/${{ secrets.BACKEND_ROUTE }}:${{ github.sha }}"' ./manifest/dev/route/deployment.yaml
+  #         /tmp/yq '.spec.template.spec.containers[].image' ./manifest/dev/route/deployment.yaml
+  #     - name: Edit tag for Ticket
+  #       working-directory: tcc-group-2-back
+  #       run: | 
+  #         /tmp/yq -i '.spec.template.spec.containers[].image = "${{ secrets.DOCKERHUB_USERNAME }}/${{ secrets.BACKEND_TICKET }}:${{ github.sha }}"' ./manifest/dev/ticket/deployment.yaml
+  #         /tmp/yq '.spec.template.spec.containers[].image' ./manifest/dev/ticket/deployment.yaml
+  #     - name: Edit tag for Token
+  #       working-directory: tcc-group-2-back
+  #       run: | 
+  #         /tmp/yq -i '.spec.template.spec.containers[].image = "${{ secrets.DOCKERHUB_USERNAME }}/${{ secrets.BACKEND_TOKEN }}:${{ github.sha }}"' ./manifest/dev/token/deployment.yaml
+  #         /tmp/yq '.spec.template.spec.containers[].image' ./manifest/dev/token/deployment.yaml
+  #     - name: Edit tag for User
+  #       working-directory: tcc-group-2-back
+  #       run: | 
+  #         /tmp/yq -i '.spec.template.spec.containers[].image = "${{ secrets.DOCKERHUB_USERNAME }}/${{ secrets.BACKEND_USER }}:${{ github.sha }}"' ./manifest/dev/user/deployment.yaml
+  #         /tmp/yq '.spec.template.spec.containers[].image' ./manifest/dev/user/deployment.yaml
+
+  #     - name: Set up Kubernetes
+  #       run: | 
+  #         curl -LO "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl"
+  #         kubectl config set-cluster ${{ secrets.CLUSTER }} --server=${{ secrets.SERVER }} 
+  #         kubectl config set-context ${{ secrets.CLUSTER }} --cluster=${{ secrets.CLUSTER }}
+  #         kubectl config set-credentials ${{ secrets.TCC_CREDENTIALS }} --token="${{ secrets.TCC_TOKEN }}"
+  #         kubectl config set-context  ${{ secrets.CLUSTER }} --user=${{ secrets.TCC_CREDENTIALS }}
+  #         kubectl config use-context  ${{ secrets.CLUSTER }}    
+  #     - name: Apply Kubernetes to gateway
+  #       working-directory: tcc-group-2-back
+  #       run: |
+  #         kubectl get namespace -n group-2-dev 
+  #         kubectl apply -f ./manifest/dev/gateway/deployment.yaml -n group-2-dev
+  #         kubectl apply -f ./manifest/dev/gateway/service.yaml -n group-2-dev
+  #         kubectl apply -f ./manifest/dev/gateway/ingress.yaml -n group-2-dev
+  #     - name: Apply Kubernetes to Permission
+  #       working-directory: tcc-group-2-back
+  #       run: |
+  #         kubectl get namespace -n group-2-dev 
+  #         kubectl apply -f ./manifest/dev/permission/deployment.yaml -n group-2-dev
+  #         kubectl apply -f ./manifest/dev/permission/service.yaml -n group-2-dev
+  #     - name: Apply Kubernetes to Route
+  #       working-directory: tcc-group-2-back
+  #       run: |
+  #         kubectl get namespace -n group-2-dev 
+  #         kubectl apply -f ./manifest/dev/route/deployment.yaml -n group-2-dev
+  #         kubectl apply -f ./manifest/dev/route/service.yaml -n group-2-dev
+  #     - name: Apply Kubernetes to Ticket
+  #       working-directory: tcc-group-2-back
+  #       run: |
+  #         kubectl get namespace -n group-2-dev 
+  #         kubectl apply -f ./manifest/dev/ticket/deployment.yaml -n group-2-dev
+  #         kubectl apply -f ./manifest/dev/ticket/service.yaml -n group-2-dev
+  #     - name: Apply Kubernetes to Token
+  #       working-directory: tcc-group-2-back
+  #       run: |
+  #         kubectl get namespace -n group-2-dev 
+  #         kubectl apply -f ./manifest/dev/token/deployment.yaml -n group-2-dev
+  #         kubectl apply -f ./manifest/dev/token/service.yaml -n group-2-dev
+  #     - name: Apply Kubernetes to User
+  #       working-directory: tcc-group-2-back
+  #       run: |
+  #         kubectl get namespace -n group-2-dev 
+  #         kubectl apply -f ./manifest/dev/user/deployment.yaml -n group-2-dev
+  #         kubectl apply -f ./manifest/dev/user/service.yaml -n group-2-dev
