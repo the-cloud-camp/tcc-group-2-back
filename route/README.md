@@ -1,7 +1,7 @@
 ## prerequisite
 
-1. pnpm installed in local machine
-2. nvm installed or node v18.12.0 installed in local machine
+1. nvm installed or node v18.12.0 installed in local machine -> [installation guide for windows](https://www.freecodecamp.org/news/node-version-manager-nvm-install-guide/)
+2. pnpm installed in local machine -> [installation guide](https://pnpm.io/installation#using-npm)
 3. docker compose installed in local machine
 
 ## Setting up

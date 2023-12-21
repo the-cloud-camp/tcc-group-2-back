@@ -4,4 +4,5 @@ RUN mkdir -p /var/www/gateway
 WORKDIR /var/www/gateway
 ADD ./gateway /var/www/gateway
 RUN pnpm install
-CMD pnpm run build && pnpm run start:prod
+RUN pnpm build
+CMD pnpm start:prod
