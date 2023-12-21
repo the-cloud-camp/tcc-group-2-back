@@ -27,13 +27,13 @@ jobs:
           file: ./gateway/Dockerfile
           push: true
           tags: ${{ secrets.DOCKERHUB_USERNAME }}/${{ secrets.BACKEND_GATEWAY }}:${{ github.sha }}
-      # - name: Build and push Permission
-      #   uses: docker/build-push-action@v5
-      #   with:
-      #     context: .
-      #     file: ./permission/Dockerfile
-      #     push: true
-      #     tags: ${{ secrets.DOCKERHUB_USERNAME }}/${{ secrets.BACKEND_PERMISSION }}:${{ github.sha }}
+      - name: Build and push Permission
+        uses: docker/build-push-action@v5
+        with:
+          context: .
+          file: ./permission/Dockerfile
+          push: true
+          tags: ${{ secrets.DOCKERHUB_USERNAME }}/${{ secrets.BACKEND_PERMISSION }}:${{ github.sha }}
       # - name: Build and push Route
       #   uses: docker/build-push-action@v5
       #   with:
@@ -87,6 +87,7 @@ jobs:
           pwd
           ls -la
           /tmp/yq -i '.spec.template.spec.containers[0].image = "${{ secrets.DOCKERHUB_USERNAME }}/${{ secrets.BACKEND_GATEWAY }}:${{ github.sha }}"' ./config/gateway/deployment.yaml
+          /tmp/yq -i '.spec.template.spec.containers[0].image = "${{ secrets.DOCKERHUB_USERNAME }}/${{ secrets.BACKEND_PERMISSION }}:${{ github.sha }}"' ./config/permission/deployment.yaml
       
       - name: Update repository
         working-directory: tcc-k8s-config-nonprd
