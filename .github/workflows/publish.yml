@@ -85,8 +85,8 @@ jobs:
         working-directory: tcc-k8s-config-nonprd
         run: |
           pwd
-          ls-la
-          /tmp/yq yq -i '.spec.template.spec.containers[0].image = "${{ secrets.DOCKERHUB_USERNAME }}/${{ secrets.BACKEND_GATEWAY }}:${{ github.sha }}" ' config/gateway/deployment.yaml
+          ls -la
+          /tmp/yq yq -i '.spec.template.spec.containers[0].image = "${{ secrets.DOCKERHUB_USERNAME }}/${{ secrets.BACKEND_GATEWAY }}:${{ github.sha }}"' config/gateway/deployment.yaml
       
       - name: Update repository
         working-directory: tcc-k8s-config-nonprd
