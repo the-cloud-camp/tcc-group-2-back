@@ -76,7 +76,7 @@ jobs:
           ref: group-2
 
       - name: Build YQ
-        working-directory: tcc-group-2-back
+        working-directory: tcc-k8s-config-nonprd
         run: | 
           wget https://github.com/mikefarah/yq/releases/latest/download/yq_linux_amd64 -O /tmp/yq
           chmod 777 /tmp/yq
