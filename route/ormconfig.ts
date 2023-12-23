@@ -21,8 +21,8 @@ export const loggingLevel = (): LoggerOptions => {
 
 const options: PostgresConnectionOptions = {
   type: 'postgres',
-  host: 'db-pg',
-  // host: process.env.DB_HOST,
+  // host: 'db-pg',
+  host: process.env.DB_HOST,
   port: Number.parseInt(process.env.DB_PORT || ''),
   username: 'pguser',
   password: 'pgpassword',
