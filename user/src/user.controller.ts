@@ -9,10 +9,7 @@ import { IUserConfirmResponse } from './interfaces/user-confirm-response.interfa
 
 @Controller('user')
 export class UserController {
-  constructor(
-    private readonly userService: UserService,
-    @Inject('MAILER_SERVICE') private readonly mailerServiceClient: ClientProxy,
-  ) {}
+  constructor(private readonly userService: UserService) {}
 
   @MessagePattern('user_search_by_credentials')
   public async searchUserByCredentials(searchParams: {
@@ -163,19 +160,6 @@ export class UserController {
             user: createdUser,
             errors: null,
           };
-          this.mailerServiceClient
-            .send('mail_send', {
-              to: createdUser.email,
-              subject: 'Email confirmation',
-              html: `<center>
-              <b>Hi there, please confirm your email to use Smoothday.</b><br>
-              Use the following link for this.<br>
-              <a href="${this.userService.getConfirmationLink(
-                userLink.link,
-              )}"><b>Confirm The Email</b></a>
-              </center>`,
-            })
-            .toPromise();
         } catch (e) {
           result = {
             status: HttpStatus.PRECONDITION_FAILED,

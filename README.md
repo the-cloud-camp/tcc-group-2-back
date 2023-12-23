@@ -8,5 +8,5 @@
 2. run docker compose
 
 ```docker
-docker compose up -d
+docker network create infrastructure && docker-compose up -d
 ```
